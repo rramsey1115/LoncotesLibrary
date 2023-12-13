@@ -2,6 +2,7 @@ using Loncotes.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
+using System.Reflection.Metadata.Ecma335;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,8 @@ app.UseHttpsRedirection();
  *********************************************************************** */
 
 // get all materitals-----------------------------------------------------------------------------------
-app.MapGet("/api/materials", (LoncotesLibraryDbContext db) => {
+app.MapGet("/api/materials", (LoncotesLibraryDbContext db) =>
+{
     return db.Materials
     .Select(m => new MaterialDTO
     {
@@ -51,7 +53,48 @@ Update the logic of the above endpoint to include both, either,
 or neither of these filters, depending which are passed in. 
 Remember, query string parameters are always optional when making an HTTP request, 
 so you have to account for the possibility that any of them will be missing. */
+app.MapGet("/api/materials/{mtId}/{gId}", (LoncotesLibraryDbContext db, int mtId, int gId) =>
+{
 
+    var returnMaterials = new List<Material>();
+    // both ids exist
+    if (mtId != 0 && gId != 0)
+    {
+        returnMaterials = db.Materials.Where(m => m.MaterialTypeId == mtId && m.GenreId == gId).ToList();
+    }
+    // materialId exists = genreId does not
+    if (mtId != 0 && gId == 0)
+    {
+        returnMaterials = db.Materials.Where(m => m.MaterialTypeId == mtId).ToList();
+    }
+    // genreId exists, materialId does not
+    if (mtId == 0 && gId != 0)
+    {
+        returnMaterials = db.Materials.Where(m => m.GenreId == gId).ToList();
+    }
+    // neither id exists
+    if (mtId == 0 && gId == 0)
+    {
+        returnMaterials = db.Materials.Select(m => new Material 
+        {
+            Id = m.Id,
+            MaterialName = m.MaterialName,
+            MaterialTypeId = m.MaterialTypeId,
+            GenreId = m.GenreId,
+            OutOfCirculationSince = m.OutOfCirculationSince
+        }).ToList();
+    }
+
+    return Results.Ok(returnMaterials.Select(rm => new MaterialDTO
+    {
+        Id = rm.Id,
+        MaterialName = rm.MaterialName,
+        MaterialTypeId = rm.MaterialTypeId,
+        GenreId = rm.GenreId,
+        OutOfCirculationSince = rm.OutOfCirculationSince
+    }).ToList());
+
+});
 
 
 // POST/Add a Material
