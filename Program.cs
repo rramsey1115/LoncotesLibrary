@@ -146,9 +146,9 @@ app.MapPost("/api/materials", (LoncotesLibraryDbContext db, Material materialObj
 {
     try
     {
-    db.Materials.Add(materialObj);
-    db.SaveChanges();
-    return Results.Created($"/api/materials/{materialObj.Id}", materialObj);
+        db.Materials.Add(materialObj);
+        db.SaveChanges();
+        return Results.Created($"/api/materials/{materialObj.Id}", materialObj);
     }
     catch (DbUpdateException)
     {
@@ -166,7 +166,7 @@ which sets the OutOfCirculationSince property of the material that matches the m
 (This is called a soft delete, where a row is not deleted from the database, 
 but instead has a flag that says the row is no longer active.) 
 The endpoint to get all materials should already be filtering these items out. */
-app.MapPut("/api/materials/{id}/remove_circulation", (LoncotesLibraryDbContext db, int id) => 
+app.MapPut("/api/materials/{id}/remove_circulation", (LoncotesLibraryDbContext db, int id) =>
 {
     Material materialtoUpdate = db.Materials.SingleOrDefault(m => m.Id == id);
     if (materialtoUpdate == null)
@@ -179,7 +179,8 @@ app.MapPut("/api/materials/{id}/remove_circulation", (LoncotesLibraryDbContext d
 });
 
 // GET all materialTypes
-app.MapGet("/api/materialtypes", (LoncotesLibraryDbContext db) => {
+app.MapGet("/api/materialtypes", (LoncotesLibraryDbContext db) =>
+{
     return db.MaterialTypes
     .Select(mt => new MaterialTypeDTO
     {
@@ -190,7 +191,8 @@ app.MapGet("/api/materialtypes", (LoncotesLibraryDbContext db) => {
 });
 
 // Get all genres
-app.MapGet("/api/genres", (LoncotesLibraryDbContext db) => {
+app.MapGet("/api/genres", (LoncotesLibraryDbContext db) =>
+{
     return db.Genres.Select(genre => new GenreDTO
     {
         Id = genre.Id,
@@ -199,7 +201,8 @@ app.MapGet("/api/genres", (LoncotesLibraryDbContext db) => {
 });
 
 // Get all patrons
-app.MapGet("/api/patrons", (LoncotesLibraryDbContext db) => {
+app.MapGet("/api/patrons", (LoncotesLibraryDbContext db) =>
+{
     return db.Patrons.Select(p => new PatronDTO
     {
         Id = p.Id,
@@ -213,7 +216,8 @@ app.MapGet("/api/patrons", (LoncotesLibraryDbContext db) => {
 
 // Get patron by ID with checkouts
 // This endpoint should get a single patron and include their checkouts, and further include the materials and their material types.
-app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) => {
+app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) =>
+{
     return db.Patrons
     .Include(p => p.Checkouts).ThenInclude(c => c.Material).ThenInclude(m => m.MaterialType)
     .Include(p => p.Checkouts).ThenInclude(c => c.Material).ThenInclude(m => m.Genre)
@@ -225,7 +229,7 @@ app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) => {
         Address = p.Address,
         Email = p.Email,
         IsActive = p.IsActive,
-        Checkouts = db.Checkouts.Select(pco => 
+        Checkouts = db.Checkouts.Select(pco =>
             new CheckoutDTO
             {
                 Id = pco.Id,
@@ -243,7 +247,7 @@ app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) => {
                         CheckoutDays = pco.Material.MaterialType.CheckoutDays
                     },
                     GenreId = pco.Material.GenreId,
-                    Genre = new GenreDTO 
+                    Genre = new GenreDTO
                     {
                         Id = pco.Material.Genre.Id,
                         Name = pco.Material.Genre.Name
@@ -258,15 +262,16 @@ app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) => {
 
 // Update Patron
 // Sometimes patrons move or change their email address. Add an endpoint that updates these properties only.
-app.MapPut("/api/patrons/{id}/update", (LoncotesLibraryDbContext db, int id, Patron newPatronObj) => {
-    
+app.MapPut("/api/patrons/{id}/update", (LoncotesLibraryDbContext db, int id, Patron newPatronObj) =>
+{
+
     if (id != newPatronObj.Id)
     {
         return Results.BadRequest("Bad data sent");
     }
 
     Patron matchedPatron = db.Patrons.SingleOrDefault(p => p.Id == id);
-    
+
     if (matchedPatron == null)
     {
         return Results.NotFound("No user found matching request");
@@ -282,9 +287,10 @@ app.MapPut("/api/patrons/{id}/update", (LoncotesLibraryDbContext db, int id, Pat
 
 // Deactivate Patron
 // Sometimes patrons move out of the county. Allow the librarians to deactivate a patron (another soft delete example!).
-app.MapPut("/api/patrons/{id}/deactivate", (LoncotesLibraryDbContext db, int id) => {
+app.MapPut("/api/patrons/{id}/deactivate", (LoncotesLibraryDbContext db, int id) =>
+{
     Patron matchedPatron = db.Patrons.SingleOrDefault(p => p.Id == id);
-    
+
     if (matchedPatron == null)
     {
         return Results.NotFound("No user found matching request");
@@ -302,13 +308,14 @@ app.MapPut("/api/patrons/{id}/deactivate", (LoncotesLibraryDbContext db, int id)
 // Checkout a Material
 // Add an endpoint to create a new Checkout for a material and patron. 
 // Automatically set the checkout date to DateTime.Today.
-app.MapPost("/api/checkout", (LoncotesLibraryDbContext db, Checkout checkoutObj) => {
+app.MapPost("/api/checkout", (LoncotesLibraryDbContext db, Checkout checkoutObj) =>
+{
     try
     {
         checkoutObj.CheckoutDate = DateTime.Now;
         db.Checkouts.Add(checkoutObj);
         db.SaveChanges();
-        return Results.Created($"/api/reservations/{checkoutObj.Id}", checkoutObj);
+        return Results.Created($"/api/checkout/{checkoutObj.Id}", checkoutObj);
     }
     catch (DbUpdateException)
     {
@@ -322,7 +329,76 @@ app.MapPost("/api/checkout", (LoncotesLibraryDbContext db, Checkout checkoutObj)
 
 // Return a Material
 // Add an endpoint expecting a checkout id, and update the checkout with a return date of DateTime.Today.
+app.MapPut("/api/return/{id}", (LoncotesLibraryDbContext db, int id) =>
+{   
+    Checkout foundCheckout = db.Checkouts.SingleOrDefault(co => co.Id == id);
 
+    if (foundCheckout == null)
+    {
+        return Results.NotFound("No checkout matches the given id");
+    }
+
+    if (foundCheckout.ReturnDate != null)
+    {
+        return Results.BadRequest("checkout has already been marked as returned.");
+    }
+
+    try
+    {
+        foundCheckout.ReturnDate = DateTime.Now;
+        db.SaveChanges();
+        return Results.Created($"/api/return/{foundCheckout.Id}", foundCheckout);
+    }
+    catch (DbUpdateException)
+    {
+        return Results.BadRequest("Invalid data submitted");
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data submitted: {ex}");
+    }
+});
+
+// get all checkouts w/ all embeded info
+app.MapGet("/api/checkouts", (LoncotesLibraryDbContext db) => {
+    return db.Checkouts
+    .Include(co => co.Patron)
+    .Include(co => co.Material).ThenInclude(m => m.MaterialType)
+    .Include(co => co.Material).ThenInclude(m => m.Genre)
+    .Select(co => new CheckoutDTO
+    {
+        Id = co.Id,
+        PatronId = co.Id,
+        Patron = new PatronDTO
+        {
+            Id = co.Patron.Id,
+            FirstName = co.Patron.FirstName,
+            LastName = co.Patron.LastName,
+            Address = co.Patron.Address,
+            Email = co.Patron.Email
+        },
+        Material = new MaterialDTO
+        {
+            Id = co.Material.Id,
+            MaterialName = co.Material.MaterialName,
+            MaterialTypeId = co.Material.MaterialTypeId,
+            MaterialType = new MaterialTypeDTO
+            {
+                Id = co.Material.MaterialType.Id,
+                Name = co.Material.MaterialType.Name
+            },
+            GenreId = co.Material.GenreId,
+            Genre = new GenreDTO
+            {
+                Id = co.Material.Genre.Id,
+                Name = co.Material.Genre.Name
+            },
+            OutOfCirculationSince = co.Material.OutOfCirculationSince
+        },
+        CheckoutDate = co.CheckoutDate,
+        ReturnDate = co.ReturnDate
+    }).ToList();
+});
 
 
 app.Run();
