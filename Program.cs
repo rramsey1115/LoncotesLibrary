@@ -299,11 +299,26 @@ app.MapPut("/api/patrons/{id}/deactivate", (LoncotesLibraryDbContext db, int id)
     return Results.NoContent();
 });
 
-
 // Checkout a Material
-//  Add an endpoint to create a new Checkout for a material and patron. 
+// Add an endpoint to create a new Checkout for a material and patron. 
 // Automatically set the checkout date to DateTime.Today.
-
+app.MapPost("/api/checkout", (LoncotesLibraryDbContext db, Checkout checkoutObj) => {
+    try
+    {
+        checkoutObj.CheckoutDate = DateTime.Now;
+        db.Checkouts.Add(checkoutObj);
+        db.SaveChanges();
+        return Results.Created($"/api/reservations/{checkoutObj.Id}", checkoutObj);
+    }
+    catch (DbUpdateException)
+    {
+        return Results.BadRequest("Invalid data submitted");
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data submitted: {ex}");
+    }
+});
 
 // Return a Material
 // Add an endpoint expecting a checkout id, and update the checkout with a return date of DateTime.Today.
