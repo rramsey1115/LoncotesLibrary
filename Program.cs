@@ -27,10 +27,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+/* *********************************************************************
+                            ENDPOINTS
+ *********************************************************************** */
 
-// endpoints-----------------
-
-// get all materitals
+// get all materitals-----------------------------------------------------------------------------------
 app.MapGet("/api/materials", (LoncotesLibraryDbContext db) => {
     return db.Materials
     .Select(m => new MaterialDTO
@@ -43,6 +44,57 @@ app.MapGet("/api/materials", (LoncotesLibraryDbContext db) => {
     }).ToList();
 });
 
+/* GET materials by Genre AND/OR MaterialType-----------------------------------------------------------------
+The librarians also like to search for materials by genre and type. 
+Add query string parameters to the above endpoint for materialTypeId and genreId. 
+Update the logic of the above endpoint to include both, either, 
+or neither of these filters, depending which are passed in. 
+Remember, query string parameters are always optional when making an HTTP request, 
+so you have to account for the possibility that any of them will be missing. */
 
+
+
+// POST/Add a Material
+
+
+/* Remove a Material from circulation
+Add an endpoint that expects an id in the url, which sets the OutOfCirculationSince property of the material that matches the material id to DateTime.Now. 
+(This is called a soft delete, where a row is not deleted from the database, 
+but instead has a flag that says the row is no longer active.) 
+The endpoint to get all materials should already be filtering these items out. */
+
+
+// GET all materialTypes
+
+
+
+// Get all genres
+
+
+// Get all patrons
+
+
+
+// Get patron with checkouts
+// This endpoint should get a patron and include their checkouts, and further include the materials and their material types.
+
+
+// Update Patron
+// Sometimes patrons move or change their email address. Add an endpoint that updates these properties only.
+
+
+
+// Deactivate Patron
+// Sometimes patrons move out of the county. Allow the librarians to deactivate a patron (another soft delete example!).
+
+
+
+// Checkout a Material
+//  Add an endpoint to create a new Checkout for a material and patron. 
+// Automatically set the checkout date to DateTime.Today.
+
+
+// Return a Material
+// Add an endpoint expecting a checkout id, and update the checkout with a return date of DateTime.Today.
 
 app.Run();
