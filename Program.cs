@@ -36,12 +36,25 @@ app.UseHttpsRedirection();
 app.MapGet("/api/materials", (LoncotesLibraryDbContext db) =>
 {
     return db.Materials
+    .Include(m => m.MaterialType)
+    .Include(m => m.Genre)
     .Select(m => new MaterialDTO
     {
         Id = m.Id,
         MaterialName = m.MaterialName,
         MaterialTypeId = m.MaterialTypeId,
+        MaterialType = new MaterialType
+        {
+            Id = m.MaterialType.Id,
+            Name = m.MaterialType.Name,
+            CheckoutDays = m.MaterialType.CheckoutDays
+        },
         GenreId = m.GenreId,
+        Genre = new Genre
+        {
+            Id = m.Genre.Id,
+            Name = m.Genre.Name
+        },
         OutOfCirculationSince = m.OutOfCirculationSince
     }).ToList();
 });
@@ -78,45 +91,61 @@ app.MapGet("/api/materials/{mtId}/{gId}", (LoncotesLibraryDbContext db, int mtId
         returnMaterials = db.Materials
         .Include(m => m.Genre)
         .Include(m => m.MaterialType)
-        .Select(m => new Material 
+        .Select(m => new Material
         {
             Id = m.Id,
             MaterialName = m.MaterialName,
             MaterialTypeId = m.MaterialTypeId,
+            MaterialType = new MaterialType
+            {
+                Id = m.MaterialType.Id,
+                Name = m.MaterialType.Name,
+                CheckoutDays = m.MaterialType.CheckoutDays
+            },
             GenreId = m.GenreId,
+            Genre = new Genre
+            {
+                Id = m.Genre.Id,
+                Name = m.Genre.Name
+            },
             OutOfCirculationSince = m.OutOfCirculationSince
         }).ToList();
     }
 
-    return Results.Ok(returnMaterials.Select(rm => {
+    return Results.Ok(returnMaterials.Select(rm =>
+    {
         Genre foundGenre = db.Genres.FirstOrDefault(g => g.Id == rm.GenreId);
         MaterialType foundMType = db.MaterialTypes.FirstOrDefault(mt => mt.Id == rm.MaterialTypeId);
 
-    return new MaterialDTO
-    {
-        Id = rm.Id,
-        MaterialName = rm.MaterialName,
-        MaterialTypeId = rm.MaterialTypeId,
-        MaterialType = new MaterialType ()
+        return new MaterialDTO
         {
-            Id = foundMType.Id,
-            Name = foundMType.Name,
-            CheckoutDays= foundMType.CheckoutDays
-        },
-        GenreId = rm.GenreId,
-        Genre = new Genre() 
-        {
-            Id = foundGenre.Id,
-            Name = foundGenre.Name
-        },
-        OutOfCirculationSince = rm.OutOfCirculationSince
-    };}).ToList());
+            Id = rm.Id,
+            MaterialName = rm.MaterialName,
+            MaterialTypeId = rm.MaterialTypeId,
+            MaterialType = new MaterialType()
+            {
+                Id = foundMType.Id,
+                Name = foundMType.Name,
+                CheckoutDays = foundMType.CheckoutDays
+            },
+            GenreId = rm.GenreId,
+            Genre = new Genre()
+            {
+                Id = foundGenre.Id,
+                Name = foundGenre.Name
+            },
+            OutOfCirculationSince = rm.OutOfCirculationSince
+        };
+    }).ToList());
 });
 
 
 // POST/Add a Material
-app.MapPost("/api/materials", (LoncotesLibraryDbContext db, Material materialObj) => {
-
+app.MapPost("/api/materials", (LoncotesLibraryDbContext db, Material materialObj) =>
+{
+    db.Materials.Add(materialObj);
+    db.SaveChanges();
+    return Results.Created($"/api/materials/{materialObj.Id}", materialObj);
 });
 
 /* Remove a Material from circulation
