@@ -275,14 +275,29 @@ app.MapPut("/api/patrons/{id}/update", (LoncotesLibraryDbContext db, int id, Pat
     matchedPatron.Address = newPatronObj.Address;
     matchedPatron.Email = newPatronObj.Email;
     db.SaveChanges();
-    
+
     return Results.NoContent();
 });
 
 
 // Deactivate Patron
 // Sometimes patrons move out of the county. Allow the librarians to deactivate a patron (another soft delete example!).
+app.MapPut("/api/patrons/{id}/deactivate", (LoncotesLibraryDbContext db, int id) => {
+    Patron matchedPatron = db.Patrons.SingleOrDefault(p => p.Id == id);
+    
+    if (matchedPatron == null)
+    {
+        return Results.NotFound("No user found matching request");
+    }
+    if (matchedPatron.IsActive == false)
+    {
+        return Results.BadRequest("Patron already marked as inactive");
+    }
 
+    matchedPatron.IsActive = false;
+    db.SaveChanges();
+    return Results.NoContent();
+});
 
 
 // Checkout a Material
