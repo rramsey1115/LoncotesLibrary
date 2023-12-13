@@ -143,9 +143,20 @@ app.MapGet("/api/materials/{mtId}/{gId}", (LoncotesLibraryDbContext db, int mtId
 // POST/Add a Material
 app.MapPost("/api/materials", (LoncotesLibraryDbContext db, Material materialObj) =>
 {
+    try
+    {
     db.Materials.Add(materialObj);
     db.SaveChanges();
     return Results.Created($"/api/materials/{materialObj.Id}", materialObj);
+    }
+    catch (DbUpdateException)
+    {
+        return Results.BadRequest("Invalid data submitted");
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data submitted: {ex}");
+    }
 });
 
 /* Remove a Material from circulation
