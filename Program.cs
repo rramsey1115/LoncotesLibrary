@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using System.Reflection.Metadata.Ecma335;
+using Microsoft.VisualBasic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -160,14 +161,33 @@ app.MapPost("/api/materials", (LoncotesLibraryDbContext db, Material materialObj
 });
 
 /* Remove a Material from circulation
-Add an endpoint that expects an id in the url, which sets the OutOfCirculationSince property of the material that matches the material id to DateTime.Now. 
+Add an endpoint that expects an id in the url, 
+which sets the OutOfCirculationSince property of the material that matches the material id to DateTime.Now. 
 (This is called a soft delete, where a row is not deleted from the database, 
 but instead has a flag that says the row is no longer active.) 
 The endpoint to get all materials should already be filtering these items out. */
-
+app.MapPut("/api/materials/{id}/remove_circulation", (LoncotesLibraryDbContext db, int id) => 
+{
+    Material materialtoUpdate = db.Materials.SingleOrDefault(m => m.Id == id);
+    if (materialtoUpdate == null)
+    {
+        return Results.NotFound();
+    }
+    materialtoUpdate.OutOfCirculationSince = DateTime.Now;
+    db.SaveChanges();
+    return Results.NoContent();
+});
 
 // GET all materialTypes
-
+app.MapGet("/api/materialtypes", (LoncotesLibraryDbContext db) => {
+    return db.MaterialTypes
+    .Select(mt => new MaterialTypeDTO
+    {
+        Id = mt.Id,
+        Name = mt.Name,
+        CheckoutDays = mt.CheckoutDays
+    }).ToList();
+});
 
 
 // Get all genres
