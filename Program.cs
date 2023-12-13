@@ -258,7 +258,26 @@ app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) => {
 
 // Update Patron
 // Sometimes patrons move or change their email address. Add an endpoint that updates these properties only.
+app.MapPut("/api/patrons/{id}/update", (LoncotesLibraryDbContext db, int id, Patron newPatronObj) => {
+    
+    if (id != newPatronObj.Id)
+    {
+        return Results.BadRequest("Bad data sent");
+    }
 
+    Patron matchedPatron = db.Patrons.SingleOrDefault(p => p.Id == id);
+    
+    if (matchedPatron == null)
+    {
+        return Results.NotFound("No user found matching request");
+    }
+
+    matchedPatron.Address = newPatronObj.Address;
+    matchedPatron.Email = newPatronObj.Email;
+    db.SaveChanges();
+    
+    return Results.NoContent();
+});
 
 
 // Deactivate Patron
@@ -273,5 +292,7 @@ app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) => {
 
 // Return a Material
 // Add an endpoint expecting a checkout id, and update the checkout with a return date of DateTime.Today.
+
+
 
 app.Run();
