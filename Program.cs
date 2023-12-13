@@ -1,9 +1,5 @@
 using Loncotes.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http.Json;
-using System.Reflection.Metadata.Ecma335;
-using Microsoft.VisualBasic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,13 +56,7 @@ app.MapGet("/api/materials", (LoncotesLibraryDbContext db) =>
     }).ToList();
 });
 
-/* GET materials by Genre AND/OR MaterialType-----------------------------------------------------------------
-The librarians also like to search for materials by genre and type. 
-Add query string parameters to the above endpoint for materialTypeId and genreId. 
-Update the logic of the above endpoint to include both, either, 
-or neither of these filters, depending which are passed in. 
-Remember, query string parameters are always optional when making an HTTP request, 
-so you have to account for the possibility that any of them will be missing. */
+// GET materials by Genre AND/OR MaterialType-----------------------------------------------------------------
 app.MapGet("/api/materials/{mtId}/{gId}", (LoncotesLibraryDbContext db, int mtId, int gId) =>
 {
 
@@ -140,7 +130,6 @@ app.MapGet("/api/materials/{mtId}/{gId}", (LoncotesLibraryDbContext db, int mtId
     }).ToList());
 });
 
-
 // POST/Add a Material
 app.MapPost("/api/materials", (LoncotesLibraryDbContext db, Material materialObj) =>
 {
@@ -160,12 +149,7 @@ app.MapPost("/api/materials", (LoncotesLibraryDbContext db, Material materialObj
     }
 });
 
-/* Remove a Material from circulation
-Add an endpoint that expects an id in the url, 
-which sets the OutOfCirculationSince property of the material that matches the material id to DateTime.Now. 
-(This is called a soft delete, where a row is not deleted from the database, 
-but instead has a flag that says the row is no longer active.) 
-The endpoint to get all materials should already be filtering these items out. */
+// Remove a Material from circulation
 app.MapPut("/api/materials/{id}/remove_circulation", (LoncotesLibraryDbContext db, int id) =>
 {
     Material materialtoUpdate = db.Materials.SingleOrDefault(m => m.Id == id);
@@ -215,7 +199,6 @@ app.MapGet("/api/patrons", (LoncotesLibraryDbContext db) =>
 });
 
 // Get patron by ID with checkouts
-// This endpoint should get a single patron and include their checkouts, and further include the materials and their material types.
 app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) =>
 {
     return db.Patrons
@@ -260,8 +243,7 @@ app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) =>
     }).ToList();
 });
 
-// Update Patron
-// Sometimes patrons move or change their email address. Add an endpoint that updates these properties only.
+// Update Patron email and address
 app.MapPut("/api/patrons/{id}/update", (LoncotesLibraryDbContext db, int id, Patron newPatronObj) =>
 {
 
@@ -284,9 +266,7 @@ app.MapPut("/api/patrons/{id}/update", (LoncotesLibraryDbContext db, int id, Pat
     return Results.NoContent();
 });
 
-
 // Deactivate Patron
-// Sometimes patrons move out of the county. Allow the librarians to deactivate a patron (another soft delete example!).
 app.MapPut("/api/patrons/{id}/deactivate", (LoncotesLibraryDbContext db, int id) =>
 {
     Patron matchedPatron = db.Patrons.SingleOrDefault(p => p.Id == id);
@@ -305,9 +285,8 @@ app.MapPut("/api/patrons/{id}/deactivate", (LoncotesLibraryDbContext db, int id)
     return Results.NoContent();
 });
 
-// Checkout a Material
-// Add an endpoint to create a new Checkout for a material and patron. 
-// Automatically set the checkout date to DateTime.Today.
+// Checkout a Material 
+// Automatically sets the checkout date to DateTime.Now.
 app.MapPost("/api/checkout", (LoncotesLibraryDbContext db, Checkout checkoutObj) =>
 {
     try
@@ -328,7 +307,7 @@ app.MapPost("/api/checkout", (LoncotesLibraryDbContext db, Checkout checkoutObj)
 });
 
 // Return a Material
-// Add an endpoint expecting a checkout id, and update the checkout with a return date of DateTime.Today.
+// Sets return date to DateTime.Now.
 app.MapPut("/api/return/{id}", (LoncotesLibraryDbContext db, int id) =>
 {   
     Checkout foundCheckout = db.Checkouts.SingleOrDefault(co => co.Id == id);
