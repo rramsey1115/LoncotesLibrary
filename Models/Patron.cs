@@ -15,4 +15,5 @@ public class Patron
     public string? Email { get; set; }
     [Required]
     public bool IsActive { get; set; }
+    public List<Checkout> Checkouts { get; set; }
 }

@@ -44,14 +44,14 @@ app.MapGet("/api/materials", (LoncotesLibraryDbContext db) =>
         Id = m.Id,
         MaterialName = m.MaterialName,
         MaterialTypeId = m.MaterialTypeId,
-        MaterialType = new MaterialType
+        MaterialType = new MaterialTypeDTO
         {
             Id = m.MaterialType.Id,
             Name = m.MaterialType.Name,
             CheckoutDays = m.MaterialType.CheckoutDays
         },
         GenreId = m.GenreId,
-        Genre = new Genre
+        Genre = new GenreDTO
         {
             Id = m.Genre.Id,
             Name = m.Genre.Name
@@ -123,14 +123,14 @@ app.MapGet("/api/materials/{mtId}/{gId}", (LoncotesLibraryDbContext db, int mtId
             Id = rm.Id,
             MaterialName = rm.MaterialName,
             MaterialTypeId = rm.MaterialTypeId,
-            MaterialType = new MaterialType()
+            MaterialType = new MaterialTypeDTO()
             {
                 Id = foundMType.Id,
                 Name = foundMType.Name,
                 CheckoutDays = foundMType.CheckoutDays
             },
             GenreId = rm.GenreId,
-            Genre = new Genre()
+            Genre = new GenreDTO()
             {
                 Id = foundGenre.Id,
                 Name = foundGenre.Name
@@ -189,17 +189,72 @@ app.MapGet("/api/materialtypes", (LoncotesLibraryDbContext db) => {
     }).ToList();
 });
 
-
 // Get all genres
-
+app.MapGet("/api/genres", (LoncotesLibraryDbContext db) => {
+    return db.Genres.Select(genre => new GenreDTO
+    {
+        Id = genre.Id,
+        Name = genre.Name
+    }).ToList();
+});
 
 // Get all patrons
+app.MapGet("/api/patrons", (LoncotesLibraryDbContext db) => {
+    return db.Patrons.Select(p => new PatronDTO
+    {
+        Id = p.Id,
+        FirstName = p.FirstName,
+        LastName = p.LastName,
+        Address = p.Address,
+        Email = p.Email,
+        IsActive = p.IsActive
+    }).ToList();
+});
 
-
-
-// Get patron with checkouts
-// This endpoint should get a patron and include their checkouts, and further include the materials and their material types.
-
+// Get patron by ID with checkouts
+// This endpoint should get a single patron and include their checkouts, and further include the materials and their material types.
+app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) => {
+    return db.Patrons
+    .Include(p => p.Checkouts).ThenInclude(c => c.Material).ThenInclude(m => m.MaterialType)
+    .Include(p => p.Checkouts).ThenInclude(c => c.Material).ThenInclude(m => m.Genre)
+    .Select(p => new PatronDTO
+    {
+        Id = p.Id,
+        FirstName = p.FirstName,
+        LastName = p.LastName,
+        Address = p.Address,
+        Email = p.Email,
+        IsActive = p.IsActive,
+        Checkouts = db.Checkouts.Select(pco => 
+            new CheckoutDTO
+            {
+                Id = pco.Id,
+                PatronId = pco.PatronId,
+                MaterialId = pco.MaterialId,
+                Material = new MaterialDTO
+                {
+                    Id = pco.Material.Id,
+                    MaterialName = pco.Material.MaterialName,
+                    MaterialTypeId = pco.Material.MaterialTypeId,
+                    MaterialType = new MaterialTypeDTO
+                    {
+                        Id = pco.Material.MaterialType.Id,
+                        Name = pco.Material.MaterialType.Name,
+                        CheckoutDays = pco.Material.MaterialType.CheckoutDays
+                    },
+                    GenreId = pco.Material.GenreId,
+                    Genre = new GenreDTO 
+                    {
+                        Id = pco.Material.Genre.Id,
+                        Name = pco.Material.Genre.Name
+                    },
+                    OutOfCirculationSince = pco.Material.OutOfCirculationSince
+                },
+                CheckoutDate = pco.CheckoutDate,
+                ReturnDate = pco.ReturnDate
+            }).ToList()
+    }).ToList();
+});
 
 // Update Patron
 // Sometimes patrons move or change their email address. Add an endpoint that updates these properties only.
