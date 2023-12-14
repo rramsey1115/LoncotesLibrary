@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LoncotesLibrary.Migrations
 {
     [DbContext(typeof(LoncotesLibraryDbContext))]
-    [Migration("20231213172348_InitialCreate")]
+    [Migration("20231214174157_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,9 @@ namespace LoncotesLibrary.Migrations
                     b.Property<int>("MaterialId")
                         .HasColumnType("integer");
 
+                    b.Property<bool?>("Paid")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("PatronId")
                         .HasColumnType("integer");
 
@@ -58,7 +61,7 @@ namespace LoncotesLibrary.Migrations
                             CheckoutDate = new DateTime(2023, 1, 15, 12, 30, 0, 0, DateTimeKind.Unspecified),
                             MaterialId = 7,
                             PatronId = 1,
-                            ReturnDate = new DateTime(2023, 1, 29, 14, 45, 0, 0, DateTimeKind.Unspecified)
+                            ReturnDate = new DateTime(2023, 2, 28, 14, 45, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -74,7 +77,7 @@ namespace LoncotesLibrary.Migrations
                             CheckoutDate = new DateTime(2023, 3, 10, 16, 5, 22, 0, DateTimeKind.Unspecified),
                             MaterialId = 14,
                             PatronId = 7,
-                            ReturnDate = new DateTime(2023, 3, 24, 18, 30, 11, 0, DateTimeKind.Unspecified)
+                            ReturnDate = new DateTime(2023, 5, 24, 18, 30, 11, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -89,7 +92,8 @@ namespace LoncotesLibrary.Migrations
                             Id = 5,
                             CheckoutDate = new DateTime(2023, 12, 1, 9, 45, 30, 0, DateTimeKind.Unspecified),
                             MaterialId = 20,
-                            PatronId = 10
+                            PatronId = 10,
+                            ReturnDate = new DateTime(2023, 12, 3, 10, 10, 10, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -97,6 +101,20 @@ namespace LoncotesLibrary.Migrations
                             CheckoutDate = new DateTime(2023, 12, 12, 14, 30, 0, 0, DateTimeKind.Unspecified),
                             MaterialId = 8,
                             PatronId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CheckoutDate = new DateTime(2023, 12, 13, 10, 33, 11, 0, DateTimeKind.Unspecified),
+                            MaterialId = 13,
+                            PatronId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CheckoutDate = new DateTime(2023, 12, 13, 16, 42, 11, 0, DateTimeKind.Unspecified),
+                            MaterialId = 12,
+                            PatronId = 6
                         });
                 });
 
@@ -497,13 +515,13 @@ namespace LoncotesLibrary.Migrations
             modelBuilder.Entity("Loncotes.Models.Checkout", b =>
                 {
                     b.HasOne("Loncotes.Models.Material", "Material")
-                        .WithMany()
+                        .WithMany("Checkouts")
                         .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Loncotes.Models.Patron", "Patron")
-                        .WithMany()
+                        .WithMany("Checkouts")
                         .HasForeignKey("PatronId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -530,6 +548,16 @@ namespace LoncotesLibrary.Migrations
                     b.Navigation("Genre");
 
                     b.Navigation("MaterialType");
+                });
+
+            modelBuilder.Entity("Loncotes.Models.Material", b =>
+                {
+                    b.Navigation("Checkouts");
+                });
+
+            modelBuilder.Entity("Loncotes.Models.Patron", b =>
+                {
+                    b.Navigation("Checkouts");
                 });
 #pragma warning restore 612, 618
         }

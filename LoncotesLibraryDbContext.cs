@@ -79,12 +79,14 @@ public class LoncotesLibraryDbContext : DbContext
         // Checkouts
         modelBuilder.Entity<Checkout>().HasData(new Checkout[]
         {
-            new Checkout { Id = 1, MaterialId = 7, PatronId = 1, CheckoutDate = new DateTime(2023, 01, 15, 12, 30, 00), ReturnDate = new DateTime(2023, 01, 29, 14, 45, 00)},
+            new Checkout { Id = 1, MaterialId = 7, PatronId = 1, CheckoutDate = new DateTime(2023, 01, 15, 12, 30, 00), ReturnDate = new DateTime(2023, 02, 28, 14, 45, 00)},
             new Checkout { Id = 2, MaterialId = 11, PatronId = 4, CheckoutDate = new DateTime(2023, 02, 20, 10, 15, 30), ReturnDate = new DateTime(2023, 03, 05, 11, 20, 45)},
-            new Checkout { Id = 3, MaterialId = 14, PatronId = 7, CheckoutDate = new DateTime(2023, 03, 10, 16, 05, 22), ReturnDate = new DateTime(2023, 03, 24, 18, 30, 11)},
+            new Checkout { Id = 3, MaterialId = 14, PatronId = 7, CheckoutDate = new DateTime(2023, 03, 10, 16, 05, 22), ReturnDate = new DateTime(2023, 05, 24, 18, 30, 11)},
             new Checkout { Id = 4, MaterialId = 17, PatronId = 9, CheckoutDate = new DateTime(2023, 04, 05, 14, 00, 15), ReturnDate = new DateTime(2023, 04, 19, 16, 10, 00)},
-            new Checkout { Id = 5, MaterialId = 20, PatronId = 10, CheckoutDate = new DateTime(2023, 12, 01, 09, 45, 30), ReturnDate = null},
+            new Checkout { Id = 5, MaterialId = 20, PatronId = 10, CheckoutDate = new DateTime(2023, 12, 01, 09, 45, 30), ReturnDate = new DateTime(2023, 12, 03, 10, 10, 10)},
             new Checkout { Id = 6, MaterialId = 8, PatronId = 2, CheckoutDate = new DateTime(2023, 12, 12, 14, 30, 00), ReturnDate = null},
+            new Checkout { Id = 7, MaterialId = 13, PatronId = 1, CheckoutDate = new DateTime(2023, 12, 13, 10, 33, 11), ReturnDate = null},
+            new Checkout { Id = 8, MaterialId = 12, PatronId = 6, CheckoutDate = new DateTime(2023, 12, 13, 16, 42, 11), ReturnDate = null}
         });
     }
 }

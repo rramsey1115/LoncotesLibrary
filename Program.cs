@@ -35,7 +35,7 @@ app.MapGet("/api/materials", (LoncotesLibraryDbContext db) =>
     return db.Materials
     .Include(m => m.MaterialType)
     .Include(m => m.Genre)
-    .Where(m => m.OutOfCirculationSince != null)
+    .Where(m => m.OutOfCirculationSince == null)
     .Select(m => new MaterialDTO
     {
         Id = m.Id,
@@ -484,7 +484,6 @@ app.MapGet("/api/checkouts/overdue", (LoncotesLibraryDbContext db) =>
         })
     .ToList();
 });
-
 
 
 app.Run();

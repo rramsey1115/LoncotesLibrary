@@ -91,7 +91,8 @@ namespace LoncotesLibrary.Migrations
                     MaterialId = table.Column<int>(type: "integer", nullable: false),
                     PatronId = table.Column<int>(type: "integer", nullable: false),
                     CheckoutDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ReturnDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    ReturnDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    Paid = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -180,15 +181,17 @@ namespace LoncotesLibrary.Migrations
 
             migrationBuilder.InsertData(
                 table: "Checkouts",
-                columns: new[] { "Id", "CheckoutDate", "MaterialId", "PatronId", "ReturnDate" },
+                columns: new[] { "Id", "CheckoutDate", "MaterialId", "Paid", "PatronId", "ReturnDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 1, 15, 12, 30, 0, 0, DateTimeKind.Unspecified), 7, 1, new DateTime(2023, 1, 29, 14, 45, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, new DateTime(2023, 2, 20, 10, 15, 30, 0, DateTimeKind.Unspecified), 11, 4, new DateTime(2023, 3, 5, 11, 20, 45, 0, DateTimeKind.Unspecified) },
-                    { 3, new DateTime(2023, 3, 10, 16, 5, 22, 0, DateTimeKind.Unspecified), 14, 7, new DateTime(2023, 3, 24, 18, 30, 11, 0, DateTimeKind.Unspecified) },
-                    { 4, new DateTime(2023, 4, 5, 14, 0, 15, 0, DateTimeKind.Unspecified), 17, 9, new DateTime(2023, 4, 19, 16, 10, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, new DateTime(2023, 12, 1, 9, 45, 30, 0, DateTimeKind.Unspecified), 20, 10, null },
-                    { 6, new DateTime(2023, 12, 12, 14, 30, 0, 0, DateTimeKind.Unspecified), 8, 2, null }
+                    { 1, new DateTime(2023, 1, 15, 12, 30, 0, 0, DateTimeKind.Unspecified), 7, null, 1, new DateTime(2023, 2, 28, 14, 45, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2023, 2, 20, 10, 15, 30, 0, DateTimeKind.Unspecified), 11, null, 4, new DateTime(2023, 3, 5, 11, 20, 45, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(2023, 3, 10, 16, 5, 22, 0, DateTimeKind.Unspecified), 14, null, 7, new DateTime(2023, 5, 24, 18, 30, 11, 0, DateTimeKind.Unspecified) },
+                    { 4, new DateTime(2023, 4, 5, 14, 0, 15, 0, DateTimeKind.Unspecified), 17, null, 9, new DateTime(2023, 4, 19, 16, 10, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, new DateTime(2023, 12, 1, 9, 45, 30, 0, DateTimeKind.Unspecified), 20, null, 10, new DateTime(2023, 12, 3, 10, 10, 10, 0, DateTimeKind.Unspecified) },
+                    { 6, new DateTime(2023, 12, 12, 14, 30, 0, 0, DateTimeKind.Unspecified), 8, null, 2, null },
+                    { 7, new DateTime(2023, 12, 13, 10, 33, 11, 0, DateTimeKind.Unspecified), 13, null, 1, null },
+                    { 8, new DateTime(2023, 12, 13, 16, 42, 11, 0, DateTimeKind.Unspecified), 12, null, 6, null }
                 });
 
             migrationBuilder.CreateIndex(
