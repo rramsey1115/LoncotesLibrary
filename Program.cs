@@ -91,6 +91,14 @@ app.MapGet("/api/materials/{id}", (LoncotesLibraryDbContext db, int id) => {
             Id = c.Id,
             MaterialId = c.MaterialId,
             PatronId = c.PatronId,
+            Patron = new PatronDTO
+            {
+                Id = c.Patron.Id,
+                FirstName = c.Patron.FirstName,
+                LastName = c.Patron.LastName,
+                Address = c.Patron.Address,
+                Email = c.Patron.Email
+            },
             CheckoutDate = c.CheckoutDate,
             ReturnDate = c.ReturnDate,
             Paid = c.Paid
