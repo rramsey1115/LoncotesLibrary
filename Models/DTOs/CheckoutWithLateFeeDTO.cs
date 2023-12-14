@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Loncotes.Models;
 
 public class CheckoutWithLateFeeDTO 
 {

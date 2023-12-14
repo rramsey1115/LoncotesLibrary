@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-
 namespace Loncotes.Models;
 
 public class Patron 
