@@ -271,6 +271,7 @@ app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) =>
     return db.Patrons
     .Include(p => p.Checkouts).ThenInclude(c => c.Material).ThenInclude(m => m.MaterialType)
     .Include(p => p.Checkouts).ThenInclude(c => c.Material).ThenInclude(m => m.Genre)
+    .Where(p => p.Id == id)
     .Select(p => new PatronDTO
     {
         Id = p.Id,
@@ -279,8 +280,8 @@ app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) =>
         Address = p.Address,
         Email = p.Email,
         IsActive = p.IsActive,
-        Checkouts = db.Checkouts.Select(pco =>
-            new CheckoutDTO
+        Checkouts = db.Checkouts.Where(pco => pco.PatronId == p.Id).Select(pco =>
+            new CheckoutWithLateFeeDTO
             {
                 Id = pco.Id,
                 PatronId = pco.PatronId,
@@ -302,7 +303,7 @@ app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) =>
                         Id = pco.Material.Genre.Id,
                         Name = pco.Material.Genre.Name
                     },
-                    OutOfCirculationSince = pco.Material.OutOfCirculationSince
+                    OutOfCirculationSince = pco.Material.OutOfCirculationSince,
                 },
                 CheckoutDate = pco.CheckoutDate,
                 ReturnDate = pco.ReturnDate
