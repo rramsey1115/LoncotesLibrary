@@ -92,7 +92,8 @@ app.MapGet("/api/materials/{id}", (LoncotesLibraryDbContext db, int id) => {
             MaterialId = c.MaterialId,
             PatronId = c.PatronId,
             CheckoutDate = c.CheckoutDate,
-            ReturnDate = c.ReturnDate
+            ReturnDate = c.ReturnDate,
+            Paid = c.Paid
         }).ToList()
     });
 
