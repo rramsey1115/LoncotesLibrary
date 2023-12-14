@@ -86,10 +86,24 @@ app.MapGet("/api/materials/{id}", (LoncotesLibraryDbContext db, int id) => {
             Id = foundM.Genre.Id,
             Name = foundM.Genre.Name
         },
-        Checkouts = foundM.Checkouts.Select(c => new CheckoutDTO
+        Checkouts = foundM.Checkouts.Select(c => new CheckoutWithLateFeeDTO
         {
             Id = c.Id,
             MaterialId = c.MaterialId,
+            Material = new MaterialDTO
+            {
+                Id = c.Material.Id,
+                MaterialName = c.Material.MaterialName,
+                MaterialTypeId = c.Material.MaterialTypeId,
+                MaterialType = new MaterialTypeDTO
+                {
+                    Id = foundM.MaterialType.Id,
+                    Name = foundM.MaterialType.Name,
+                    CheckoutDays = foundM.MaterialType.CheckoutDays
+                },
+                GenreId = c.Material.GenreId,
+                OutOfCirculationSince = c.Material.OutOfCirculationSince
+            },
             PatronId = c.PatronId,
             Patron = new PatronDTO
             {

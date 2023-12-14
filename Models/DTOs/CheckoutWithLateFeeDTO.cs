@@ -21,7 +21,7 @@ public class CheckoutWithLateFeeDTO
             DateTime returnDate = ReturnDate ?? DateTime.Today;
             int daysLate = (returnDate - dueDate).Days;
             decimal fee = daysLate * _lateFeePerDay;
-            return daysLate > 0 ? fee : null;
+            return daysLate > 0 ? fee : 0;
         }
     }
     public bool? Paid { get; set; }
