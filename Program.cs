@@ -254,7 +254,8 @@ app.MapGet("/api/genres", (LoncotesLibraryDbContext db) =>
 // Get all patrons
 app.MapGet("/api/patrons", (LoncotesLibraryDbContext db) =>
 {
-    return db.Patrons.Select(p => new PatronDTO
+    var orderdPatrons = db.Patrons.OrderBy(p => p.Id);
+    return orderdPatrons.Select(p => new PatronDTO
     {
         Id = p.Id,
         FirstName = p.FirstName,
