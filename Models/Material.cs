@@ -14,4 +14,5 @@ public class Material
     public int GenreId { get; set; }
     public Genre Genre { get; set; }
     public DateTime? OutOfCirculationSince { get; set; }
+    public List<Checkout> Checkouts { get; set; }
 }
