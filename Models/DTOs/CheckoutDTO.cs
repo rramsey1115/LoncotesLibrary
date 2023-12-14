@@ -13,5 +13,5 @@ public class CheckoutDTO
     public PatronDTO Patron { get; set; }
     public DateTime CheckoutDate { get; set; }
     public DateTime? ReturnDate { get; set; }
-    public List<CheckoutDTO> Checkouts { get; set; }
+    public bool Paid { get; set; }
 }

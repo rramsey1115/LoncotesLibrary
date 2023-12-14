@@ -16,4 +16,16 @@ public class Patron
     [Required]
     public bool IsActive { get; set; }
     public List<Checkout> Checkouts { get; set; }
+    private List<CheckoutWithLateFeeDTO> CheckoutWithLateFees { get; set; }
+    public decimal? Balance {
+        get
+        {
+            // look at all checkoutsWithLateFees
+            // if lateFee exists and Paid == false, execute math for balance
+            decimal? allFees = null;
+            CheckoutWithLateFees.Select(clf => clf.LateFee != null && clf.Paid == false ? allFees += clf.LateFee : null);
+            //  return allFees (either null or a decimal)
+            return allFees;
+        }
+    }
 }
