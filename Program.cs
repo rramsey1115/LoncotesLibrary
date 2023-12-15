@@ -349,12 +349,12 @@ app.MapPut("/api/patrons/{id}/deactivate", (LoncotesLibraryDbContext db, int id)
 });
 
 // Checkout a Material 
-// Automatically sets the checkout date to DateTime.Now.
+// Automatically sets the checkout date to DateTime.Today.
 app.MapPost("/api/checkouts", (LoncotesLibraryDbContext db, Checkout checkoutObj) =>
 {
     try
     {
-        checkoutObj.CheckoutDate = DateTime.Now;
+        checkoutObj.CheckoutDate = DateTime.Today;
         db.Checkouts.Add(checkoutObj);
         db.SaveChanges();
         return Results.Created($"/api/checkout/{checkoutObj.Id}", checkoutObj);
@@ -370,7 +370,7 @@ app.MapPost("/api/checkouts", (LoncotesLibraryDbContext db, Checkout checkoutObj
 });
 
 // Return a Material
-// Sets return date to DateTime.Now.
+// Sets return date to DateTime.Today.
 app.MapPut("/api/checkouts/{id}/return", (LoncotesLibraryDbContext db, int id) =>
 {   
     Checkout foundCheckout = db.Checkouts.SingleOrDefault(co => co.Id == id);
@@ -387,7 +387,7 @@ app.MapPut("/api/checkouts/{id}/return", (LoncotesLibraryDbContext db, int id) =
 
     try
     {
-        foundCheckout.ReturnDate = DateTime.Now;
+        foundCheckout.ReturnDate = DateTime.Today;
         db.SaveChanges();
         return Results.Created($"/api/checkouts/{foundCheckout.Id}/return", foundCheckout);
     }

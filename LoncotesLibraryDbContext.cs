@@ -70,23 +70,25 @@ public class LoncotesLibraryDbContext : DbContext
         new Material { Id = 14, MaterialName ="The Hitchhiker's Guide to the Galaxy (E-book)", MaterialTypeId = 5, GenreId = 2, OutOfCirculationSince = null},
         new Material { Id = 15, MaterialName ="Cook's Illustrated", MaterialTypeId = 4, GenreId = 5, OutOfCirculationSince = null},
         new Material { Id = 16, MaterialName ="Black Mirror (DVD)", MaterialTypeId = 3, GenreId = 1, OutOfCirculationSince = null},
-        new Material { Id = 17, MaterialName ="The Catcher in the Rye", MaterialTypeId = 1, GenreId = 1, OutOfCirculationSince = new DateTime(2011, 12, 30, 01, 01, 01)},
+        new Material { Id = 17, MaterialName ="The Catcher in the Rye", MaterialTypeId = 1, GenreId = 1, OutOfCirculationSince = new DateTime(2011, 12, 30)},
         new Material { Id = 18, MaterialName ="Wired Magazine", MaterialTypeId = 2, GenreId = 4, OutOfCirculationSince = null},
-        new Material { Id = 19, MaterialName ="The Shining (DVD)", MaterialTypeId = 3, GenreId = 5, OutOfCirculationSince = new DateTime(1999, 09, 22, 01,01,01)},
+        new Material { Id = 19, MaterialName ="The Shining (DVD)", MaterialTypeId = 3, GenreId = 5, OutOfCirculationSince = new DateTime(1999, 09, 22)},
         new Material { Id = 20, MaterialName ="The Girl with the Dragon Tattoo (E-book)", MaterialTypeId = 5, GenreId = 5, OutOfCirculationSince = null}
         });
 
         // Checkouts
         modelBuilder.Entity<Checkout>().HasData(new Checkout[]
         {
-            new Checkout { Id = 1, MaterialId = 7, PatronId = 1, CheckoutDate = new DateTime(2023, 01, 15, 12, 30, 00), ReturnDate = new DateTime(2023, 02, 28, 14, 45, 00), Paid = true},
-            new Checkout { Id = 2, MaterialId = 11, PatronId = 4, CheckoutDate = new DateTime(2023, 02, 20, 10, 15, 30), ReturnDate = new DateTime(2023, 03, 05, 11, 20, 45), Paid = true},
-            new Checkout { Id = 3, MaterialId = 14, PatronId = 7, CheckoutDate = new DateTime(2023, 03, 10, 16, 05, 22), ReturnDate = new DateTime(2023, 05, 24, 18, 30, 11), Paid = false},
-            new Checkout { Id = 4, MaterialId = 17, PatronId = 9, CheckoutDate = new DateTime(2023, 04, 05, 14, 00, 15), ReturnDate = new DateTime(2023, 04, 19, 16, 10, 00), Paid = false},
-            new Checkout { Id = 5, MaterialId = 20, PatronId = 10, CheckoutDate = new DateTime(2023, 12, 01, 09, 45, 30), ReturnDate = new DateTime(2023, 12, 03, 10, 10, 10), Paid = true},
-            new Checkout { Id = 6, MaterialId = 8, PatronId = 2, CheckoutDate = new DateTime(2023, 12, 12, 14, 30, 00), ReturnDate = null, Paid = true},
-            new Checkout { Id = 7, MaterialId = 13, PatronId = 1, CheckoutDate = new DateTime(2023, 12, 13, 10, 33, 11), ReturnDate = null, Paid = true},
-            new Checkout { Id = 8, MaterialId = 12, PatronId = 6, CheckoutDate = new DateTime(2023, 12, 13, 16, 42, 11), ReturnDate = null, Paid = true}
+            new Checkout { Id = 1, MaterialId = 7, PatronId = 1, CheckoutDate = new DateTime(2023, 01, 15), ReturnDate = new DateTime(2023, 02, 28), Paid = true},
+            new Checkout { Id = 2, MaterialId = 11, PatronId = 4, CheckoutDate = new DateTime(2023, 02, 20), ReturnDate = new DateTime(2023, 03, 05), Paid = true},
+            new Checkout { Id = 3, MaterialId = 14, PatronId = 7, CheckoutDate = new DateTime(2023, 03, 10), ReturnDate = new DateTime(2023, 05, 24), Paid = false},
+            new Checkout { Id = 4, MaterialId = 17, PatronId = 9, CheckoutDate = new DateTime(2023, 04, 05), ReturnDate = new DateTime(2023, 04, 10), Paid = false},
+            new Checkout { Id = 5, MaterialId = 20, PatronId = 10, CheckoutDate = new DateTime(2023, 12, 01), ReturnDate = new DateTime(2023, 12, 03), Paid = true},
+            new Checkout { Id = 6, MaterialId = 8, PatronId = 2, CheckoutDate = new DateTime(2023, 12, 12), ReturnDate = null, Paid = true},
+            new Checkout { Id = 7, MaterialId = 13, PatronId = 1, CheckoutDate = new DateTime(2023, 12, 13), ReturnDate = null, Paid = true},
+            new Checkout { Id = 8, MaterialId = 12, PatronId = 6, CheckoutDate = new DateTime(2023, 12, 13), ReturnDate = null, Paid = true},
+            new Checkout { Id = 9, MaterialId = 5, PatronId = 3, CheckoutDate = new DateTime(2023, 10, 13), ReturnDate = null, Paid = false},
+            new Checkout { Id = 10, MaterialId = 9, PatronId = 5, CheckoutDate = new DateTime(2023, 11, 02), ReturnDate = null, Paid = true}
         });
     }
 }

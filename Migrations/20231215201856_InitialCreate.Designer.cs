@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LoncotesLibrary.Migrations
 {
     [DbContext(typeof(LoncotesLibraryDbContext))]
-    [Migration("20231215155141_InitialCreate")]
+    [Migration("20231215201856_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,52 +58,52 @@ namespace LoncotesLibrary.Migrations
                         new
                         {
                             Id = 1,
-                            CheckoutDate = new DateTime(2023, 1, 15, 12, 30, 0, 0, DateTimeKind.Unspecified),
+                            CheckoutDate = new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MaterialId = 7,
                             Paid = true,
                             PatronId = 1,
-                            ReturnDate = new DateTime(2023, 2, 28, 14, 45, 0, 0, DateTimeKind.Unspecified)
+                            ReturnDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
-                            CheckoutDate = new DateTime(2023, 2, 20, 10, 15, 30, 0, DateTimeKind.Unspecified),
+                            CheckoutDate = new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MaterialId = 11,
                             Paid = true,
                             PatronId = 4,
-                            ReturnDate = new DateTime(2023, 3, 5, 11, 20, 45, 0, DateTimeKind.Unspecified)
+                            ReturnDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
-                            CheckoutDate = new DateTime(2023, 3, 10, 16, 5, 22, 0, DateTimeKind.Unspecified),
+                            CheckoutDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MaterialId = 14,
                             Paid = false,
                             PatronId = 7,
-                            ReturnDate = new DateTime(2023, 5, 24, 18, 30, 11, 0, DateTimeKind.Unspecified)
+                            ReturnDate = new DateTime(2023, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4,
-                            CheckoutDate = new DateTime(2023, 4, 5, 14, 0, 15, 0, DateTimeKind.Unspecified),
+                            CheckoutDate = new DateTime(2023, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MaterialId = 17,
                             Paid = false,
                             PatronId = 9,
-                            ReturnDate = new DateTime(2023, 4, 19, 16, 10, 0, 0, DateTimeKind.Unspecified)
+                            ReturnDate = new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 5,
-                            CheckoutDate = new DateTime(2023, 12, 1, 9, 45, 30, 0, DateTimeKind.Unspecified),
+                            CheckoutDate = new DateTime(2023, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MaterialId = 20,
                             Paid = true,
                             PatronId = 10,
-                            ReturnDate = new DateTime(2023, 12, 3, 10, 10, 10, 0, DateTimeKind.Unspecified)
+                            ReturnDate = new DateTime(2023, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 6,
-                            CheckoutDate = new DateTime(2023, 12, 12, 14, 30, 0, 0, DateTimeKind.Unspecified),
+                            CheckoutDate = new DateTime(2023, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MaterialId = 8,
                             Paid = true,
                             PatronId = 2
@@ -111,7 +111,7 @@ namespace LoncotesLibrary.Migrations
                         new
                         {
                             Id = 7,
-                            CheckoutDate = new DateTime(2023, 12, 13, 10, 33, 11, 0, DateTimeKind.Unspecified),
+                            CheckoutDate = new DateTime(2023, 12, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MaterialId = 13,
                             Paid = true,
                             PatronId = 1
@@ -119,10 +119,26 @@ namespace LoncotesLibrary.Migrations
                         new
                         {
                             Id = 8,
-                            CheckoutDate = new DateTime(2023, 12, 13, 16, 42, 11, 0, DateTimeKind.Unspecified),
+                            CheckoutDate = new DateTime(2023, 12, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MaterialId = 12,
                             Paid = true,
                             PatronId = 6
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CheckoutDate = new DateTime(2023, 10, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MaterialId = 5,
+                            Paid = false,
+                            PatronId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CheckoutDate = new DateTime(2023, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MaterialId = 9,
+                            Paid = true,
+                            PatronId = 5
                         });
                 });
 
@@ -318,7 +334,7 @@ namespace LoncotesLibrary.Migrations
                             GenreId = 1,
                             MaterialName = "The Catcher in the Rye",
                             MaterialTypeId = 1,
-                            OutOfCirculationSince = new DateTime(2011, 12, 30, 1, 1, 1, 0, DateTimeKind.Unspecified)
+                            OutOfCirculationSince = new DateTime(2011, 12, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -333,7 +349,7 @@ namespace LoncotesLibrary.Migrations
                             GenreId = 5,
                             MaterialName = "The Shining (DVD)",
                             MaterialTypeId = 3,
-                            OutOfCirculationSince = new DateTime(1999, 9, 22, 1, 1, 1, 0, DateTimeKind.Unspecified)
+                            OutOfCirculationSince = new DateTime(1999, 9, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
