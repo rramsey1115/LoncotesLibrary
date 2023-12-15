@@ -342,12 +342,8 @@ app.MapPut("/api/patrons/{id}/deactivate", (LoncotesLibraryDbContext db, int id)
     {
         return Results.NotFound("No user found matching request");
     }
-    if (matchedPatron.IsActive == false)
-    {
-        return Results.BadRequest("Patron already marked as inactive");
-    }
 
-    matchedPatron.IsActive = false;
+    matchedPatron.IsActive = !matchedPatron.IsActive;
     db.SaveChanges();
     return Results.NoContent();
 });
