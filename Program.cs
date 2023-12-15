@@ -35,7 +35,7 @@ app.MapGet("/api/materials", (LoncotesLibraryDbContext db) =>
     return db.Materials
     .Include(m => m.MaterialType)
     .Include(m => m.Genre)
-    .Where(m => m.OutOfCirculationSince == null)
+    .OrderBy(m => m.Id)
     .Select(m => new MaterialDTO
     {
         Id = m.Id,
@@ -78,7 +78,8 @@ app.MapGet("/api/materials/{id}", (LoncotesLibraryDbContext db, int id) => {
         MaterialType = new MaterialTypeDTO
         {
             Id = foundM.MaterialType.Id,
-            Name = foundM.MaterialType.Name
+            Name = foundM.MaterialType.Name,
+            CheckoutDays = foundM.MaterialType.CheckoutDays
         },
         GenreId = foundM.GenreId,
         Genre = new GenreDTO
@@ -118,9 +119,6 @@ app.MapGet("/api/materials/{id}", (LoncotesLibraryDbContext db, int id) => {
             Paid = c.Paid
         }).ToList()
     });
-
-
-
 });
 
 // GET materials by Genre AND/OR MaterialType
@@ -356,7 +354,7 @@ app.MapPut("/api/patrons/{id}/deactivate", (LoncotesLibraryDbContext db, int id)
 
 // Checkout a Material 
 // Automatically sets the checkout date to DateTime.Now.
-app.MapPost("/api/checkout", (LoncotesLibraryDbContext db, Checkout checkoutObj) =>
+app.MapPost("/api/checkouts", (LoncotesLibraryDbContext db, Checkout checkoutObj) =>
 {
     try
     {
@@ -377,7 +375,7 @@ app.MapPost("/api/checkout", (LoncotesLibraryDbContext db, Checkout checkoutObj)
 
 // Return a Material
 // Sets return date to DateTime.Now.
-app.MapPut("/api/return/{id}", (LoncotesLibraryDbContext db, int id) =>
+app.MapPut("/api/checkouts/{id}/return", (LoncotesLibraryDbContext db, int id) =>
 {   
     Checkout foundCheckout = db.Checkouts.SingleOrDefault(co => co.Id == id);
 
@@ -395,7 +393,7 @@ app.MapPut("/api/return/{id}", (LoncotesLibraryDbContext db, int id) =>
     {
         foundCheckout.ReturnDate = DateTime.Now;
         db.SaveChanges();
-        return Results.Created($"/api/return/{foundCheckout.Id}", foundCheckout);
+        return Results.Created($"/api/checkouts/{foundCheckout.Id}/return", foundCheckout);
     }
     catch (DbUpdateException)
     {
@@ -413,6 +411,7 @@ app.MapGet("/api/checkouts", (LoncotesLibraryDbContext db) => {
     .Include(co => co.Patron)
     .Include(co => co.Material).ThenInclude(m => m.MaterialType)
     .Include(co => co.Material).ThenInclude(m => m.Genre)
+    .OrderBy(co => co.Id)
     .Select(co => new CheckoutDTO
     {
         Id = co.Id,
@@ -433,7 +432,8 @@ app.MapGet("/api/checkouts", (LoncotesLibraryDbContext db) => {
             MaterialType = new MaterialTypeDTO
             {
                 Id = co.Material.MaterialType.Id,
-                Name = co.Material.MaterialType.Name
+                Name = co.Material.MaterialType.Name,
+                CheckoutDays = co.Material.MaterialType.CheckoutDays
             },
             GenreId = co.Material.GenreId,
             Genre = new GenreDTO
@@ -452,17 +452,29 @@ app.MapGet("/api/checkouts", (LoncotesLibraryDbContext db) => {
 app.MapGet("/api/materials/available", (LoncotesLibraryDbContext db) =>
 {
     return db.Materials
+    .Include(m => m.MaterialType)
+    .Include(m => m.Genre)
     .Where(m => m.OutOfCirculationSince == null)
     .Where(m => m.Checkouts.All(co => co.ReturnDate != null))
-    .Select(material => new MaterialDTO
+    .Select(m => new MaterialDTO
     {
-        Id = material.Id,
-        MaterialName = material.MaterialName,
-        MaterialTypeId = material.MaterialTypeId,
-        GenreId = material.GenreId,
-        OutOfCirculationSince = material.OutOfCirculationSince
-    })
-    .ToList();
+        Id = m.Id,
+        MaterialName = m.MaterialName,
+        MaterialTypeId = m.MaterialTypeId,
+        MaterialType = new MaterialTypeDTO
+        {
+            Id = m.MaterialType.Id,
+            Name = m.MaterialType.Name,
+            CheckoutDays = m.MaterialType.CheckoutDays
+        },
+        GenreId = m.GenreId,
+        Genre = new GenreDTO
+        {
+            Id = m.Genre.Id,
+            Name = m.Genre.Name
+        },
+        OutOfCirculationSince = m.OutOfCirculationSince
+    }).ToList();
 });
 
 // get all OVERDUE checkouts
