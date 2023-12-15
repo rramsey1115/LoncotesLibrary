@@ -477,9 +477,10 @@ app.MapGet("/api/materials/available", (LoncotesLibraryDbContext db) =>
 app.MapGet("/api/checkouts/overdue", (LoncotesLibraryDbContext db) =>
 {
     return db.Checkouts
-    .Include(p => p.Patron)
-    .Include(co => co.Material)
-    .ThenInclude(m => m.MaterialType)
+    .Include(co => co.Patron)
+    .Include(co => co.Material).ThenInclude(m => m.MaterialType)
+    .Include(co => co.Material).ThenInclude(m => m.Genre)
+    .OrderBy(co => co.Id)
     .Where(co =>
         (DateTime.Today - co.CheckoutDate).Days >
         co.Material.MaterialType.CheckoutDays &&
@@ -500,6 +501,11 @@ app.MapGet("/api/checkouts/overdue", (LoncotesLibraryDbContext db) =>
                     CheckoutDays = co.Material.MaterialType.CheckoutDays
                 },
                 GenreId = co.Material.GenreId,
+                Genre = new GenreDTO
+                {
+                    Id = co.Material.Genre.Id,
+                    Name = co.Material.Genre.Name
+                },
                 OutOfCirculationSince = co.Material.OutOfCirculationSince
             },
             PatronId = co.PatronId,
