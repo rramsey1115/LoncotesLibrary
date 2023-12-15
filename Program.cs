@@ -124,7 +124,6 @@ app.MapGet("/api/materials/{id}", (LoncotesLibraryDbContext db, int id) => {
 // GET materials by Genre AND/OR MaterialType
 app.MapGet("/api/materials/{mtId}/{gId}", (LoncotesLibraryDbContext db, int mtId, int gId) =>
 {
-
     var returnMaterials = new List<Material>();
     // both ids exist
     if (mtId != 0 && gId != 0)
@@ -147,6 +146,7 @@ app.MapGet("/api/materials/{mtId}/{gId}", (LoncotesLibraryDbContext db, int mtId
         returnMaterials = db.Materials
         .Include(m => m.Genre)
         .Include(m => m.MaterialType)
+        .OrderBy(m => m.Id)
         .Select(m => new Material
         {
             Id = m.Id,
