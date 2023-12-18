@@ -524,5 +524,4 @@ app.MapGet("/api/checkouts/overdue", (LoncotesLibraryDbContext db) =>
     .ToList();
 });
 
-
 app.Run();
