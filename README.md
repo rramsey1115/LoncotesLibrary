@@ -37,19 +37,17 @@ Skills Used
 
 Samples of Endpoints
 ============
-![Loncotes - Code Sample 1](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/1adda70e-ef4e-4785-b397-1945f098e5a4)
+<img width="600" src="https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/1adda70e-ef4e-4785-b397-1945f098e5a4" alt="code sample 1"  />
 
-![Loncotes - Code Sample 2](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/0b0d12d6-9e2d-42b8-842d-5901baad8404)
+<img width="600" src="https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/0b0d12d6-9e2d-42b8-842d-5901baad8404" alt="code sample 2"  />
 
-![Loncotes - Swagger Endpoints Examples](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/496a8873-9eb9-4382-bd2f-5ffd1c863268)
+<img width="900" src="https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/496a8873-9eb9-4382-bd2f-5ffd1c863268" alt="swagger endpoints examples"  />
 
 
 Samples of Client-Side Views
 =============
+<img width="900" src="https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/8f87bac9-5f81-41d5-97a5-b3c4fe9e2cff" alt="materials view"  />
 
-![Loncotes -Materials View](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/8f87bac9-5f81-41d5-97a5-b3c4fe9e2cff)
+<img width="900" src="https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/f5b0ffa8-4f35-46ce-8be0-ce620ad41ad3" alt="patrons view"  />
 
-![Loncotes - Patrons View](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/f5b0ffa8-4f35-46ce-8be0-ce620ad41ad3)
-
-![Loncotes - Patron Details](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/74401b2d-94ad-44fd-8568-becf900fbefc)
-
+<img width="900" src="https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/74401b2d-94ad-44fd-8568-becf900fbefc" alt="patron details"  />
