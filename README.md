@@ -46,8 +46,12 @@ Samples of Endpoints
 
 Samples of Client-Side Views
 =============
+Materials
+---------
 <img width="900" src="https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/8f87bac9-5f81-41d5-97a5-b3c4fe9e2cff" alt="materials view"  />
-
+Patrons
+---------
 <img width="900" src="https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/f5b0ffa8-4f35-46ce-8be0-ce620ad41ad3" alt="patrons view"  />
-
+Patron Details
+-----------
 <img width="900" src="https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/74401b2d-94ad-44fd-8568-becf900fbefc" alt="patron details"  />
