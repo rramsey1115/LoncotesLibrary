@@ -47,8 +47,6 @@ Samples of Endpoints
 Samples of Client-Side Views
 =============
 
-![Loncotes - Checkouts View](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/41594cb8-deb8-46b5-9633-2b3644609437)
-
 ![Loncotes -Materials View](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/8f87bac9-5f81-41d5-97a5-b3c4fe9e2cff)
 
 ![Loncotes - Patrons View](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/f5b0ffa8-4f35-46ce-8be0-ce620ad41ad3)
