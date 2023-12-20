@@ -9,13 +9,13 @@ The purpose of this project was to gain skills writing server-side endpoints in 
 I took advantage of the simplicity and developer-friendly Reactstrap tables, dropdowns, buttons, navigation, etc. in order to spend the majority of my time and learning efforts on the server-side portion of this project.
 
 About
--------------
+==========
 Loncotes County Library is an application which tracks library checkouts, library materials, data bout each library material, patron checkouts, and data about each patron. 
 
 For the purposes of this project, the user is imagined to be an employee at the library, able to create, update, and delete checkouts as well as all data about users. 
 
 Skills Used
-------------
+=========
 <div>
 	<table>
 		<tr>
@@ -33,3 +33,25 @@ Skills Used
 		</tr>
 	</table>
 </div>
+
+
+Samples of Endpoints
+============
+![Loncotes - Code Sample 1](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/1adda70e-ef4e-4785-b397-1945f098e5a4)
+
+![Loncotes - Code Sample 2](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/0b0d12d6-9e2d-42b8-842d-5901baad8404)
+
+![Loncotes - Swagger Endpoints Examples](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/496a8873-9eb9-4382-bd2f-5ffd1c863268)
+
+
+Samples of Client-Side Views
+=============
+
+![Loncotes - Checkouts View](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/41594cb8-deb8-46b5-9633-2b3644609437)
+
+![Loncotes -Materials View](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/8f87bac9-5f81-41d5-97a5-b3c4fe9e2cff)
+
+![Loncotes - Patrons View](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/f5b0ffa8-4f35-46ce-8be0-ce620ad41ad3)
+
+![Loncotes - Patron Details](https://github.com/rramsey1115/LoncotesLibrary/assets/139381892/74401b2d-94ad-44fd-8568-becf900fbefc)
+
